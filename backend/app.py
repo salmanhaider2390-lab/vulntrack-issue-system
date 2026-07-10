@@ -136,3 +136,20 @@ def get_issue(issue_id):
     if not issue:
         return jsonify({"error": "Issue not found"}), 404
         return jsonify(issue.to_dict())
+
+#--------------UPDATE----------------
+@app.put("/api/isssues/<int:issue_id>")
+@require_api_key
+def update_issue(issue_id):
+    issue = db.sessioin.get(Issue, issue_id)
+    if not issue:
+        return jsonify({"error": "Issue not found"}), 404
+
+    data = request.get_json(silent=True) or {}
+    errors,cleaned = validate_issue_payload(data, partial+False)
+    if errors:
+        return jsonify ({"errors": errors}), 400
+
+        _apply_changes(issue, cleaned)
+        db.session.commit()
+        return jsonify(issue.to_dict())
