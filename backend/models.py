@@ -25,4 +25,16 @@ class Issue(db.Model):
     cvss_score = db.Column(db.Float, nullable=True)
     cve_id = db.Column(db.String(30, nullable=True))
 
-    
+    status = db.Column(db.String(20),nullable=False, default="Open")
+
+def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "item_type": self.item_type,
+            "severity" : self.severity,
+            "cvss_score" : self.cvss_score,
+            "cve_id" : self.cve_id,
+            "status" : self.status,
+        }
