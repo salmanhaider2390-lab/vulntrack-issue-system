@@ -116,3 +116,23 @@ def list_issues():
         "date_reported": Issue.date_reported,
         "date_updated": Issue.date_updated,
     }
+    col = sortable.get(sort_by, Issue.date_reported)
+    query = query.order_by(col.desc() if order == "desc" else col.asc())
+
+    page = max (int(request.args.get("page", 1)), 1)
+    per_page = min(max(int(request.args.get("per_page", 20)), 1), 100)
+    total = query.count()
+    items = query.offset((page -1) * per_page).limit(per_page).all()
+
+    return jsonify({
+        "total": total,
+        "page": page,
+        "per_page": per_page,
+        "items": [i.to_dict() for i in items],
+    })
+@app.get("/api/issues/<int:issue_id>")
+def get_issue(issue_id):
+    issue = db.session.get(Issue,issue_id)
+    if not issue:
+        return jsonify({"error": "Issue not found"}), 404
+        return jsonify(issue.to_dict())
