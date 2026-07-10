@@ -27,14 +27,35 @@ class Issue(db.Model):
 
     status = db.Column(db.String(20),nullable=False, default="Open")
 
+    affected_asset = db.Column(db.String(200), nullable=False)
+    company = db.Column(db.String(150), nullable=False, default=DEFAULT_COMPANY)
+    reporter = db.Column(db.String(120), nullable=False)
+    assignee = db.Column(db.String(120), nullable=True)
+
+    remidiation_notes = db.Column(db.Text, nullable=True)
+
+    date_reported = db.Column(db.DateTime, nullable=False, default=now_utc)
+    date_updated = db.Column(db.DateTime, nullable= False, default=now_utc, onupdate=now_utc)
+    date_resolved = db.Column(db.DateTime, nullable=True)
+
+
 def to_dict(self):
         return {
             "id": self.id,
             "title": self.title,
             "description": self.description,
             "item_type": self.item_type,
-            "severity" : self.severity,
-            "cvss_score" : self.cvss_score,
-            "cve_id" : self.cve_id,
-            "status" : self.status,
-        }
+            "severity": self.severity,
+            "cvss_score": self.cvss_score,
+            "cve_id": self.cve_id,
+            "status": self.status,
+            "affected_asset": self.affected_asset,
+            "company": self.company,
+            "reporter": self.reporter,
+            "assigneee": self.assignee,
+            "reporter": self.reporter,
+            "remidiation_notes": self.remidiation_notes,
+            "date_reported": self.date_reported.isoformat() if self.date_reported else None,
+            "date_updated": self.date_updated.isoformat() if self.date_updated else None,
+            "date_resolved": self.date_resolved.isoformat() if self.date_resolved else None,
+            }
