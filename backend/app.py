@@ -84,4 +84,35 @@ def create_issue():
     db.session.commit()
     return jsonify(issue.to_dict()), 201
 
+# ---------------READ-----------------
+@app.get("/api/issues")
+def list_issues():
+    query = issue.query
+
+    q = request.args.get("q")
+    if q:
+        like = f"%{q}%"
+        query = query.filter(db.or_(Issue.title.ilike(like), Issue.description.ilike(like)))
+
+    for field, column in [
+        ("status", Issue.status),
+        ("severity", Issue.severity),
+        ("Item_type", Issue.item_type),
+        ("company", Issue.company),
+        ("assignee", Issue.assignee),
+    ]:
+        val = request,args.get(field)
+        if val:
+            query = query.filter(column == val)
     
+    sort_by = request.args.get("sort_by", "date_reported")
+    order = request.args.get("order", "desc")
+    sortable = {
+        "id": Issue.id,
+        "title": Issue.title,
+        "severity": Issue.severity,
+        "status": Issue.status,
+        "cvss_score": Issue.cvss_score,
+        "date_reported": Issue.date_reported,
+        "date_updated": Issue.date_updated,
+    }
