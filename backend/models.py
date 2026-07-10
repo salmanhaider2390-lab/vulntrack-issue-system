@@ -19,4 +19,10 @@ class Issue(db.Model):
     id = db.Column(db.Integer, primary_key= True)
     title = db.Column(db.String(200), nullable= False)
     description = db.Column(db.Text, nullable=False)
+
+    item_type = db.Column(db.String(30), nullable=False)
+    severity = db.Column(db.String(20), nullable=False)
+    cvss_score = db.Column(db.Float, nullable=True)
+    cve_id = db.Column(db.String(30, nullable=True))
+
     
