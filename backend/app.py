@@ -40,4 +40,19 @@ def require_api_key(fn):
 
             return wrapper
 
-            
+def register_routes(app):
+
+    @app.get("/api/health")
+    def health():
+        return jsonify({"status": "ok", "time": now_utc().isoformat()})
+
+    @app.get("/api/meta")
+    def meta():
+
+        return jsonify({
+            "item_types": ITEM_TYPES,
+            "severities": SEVERITIES,
+            "statuses": STATUSES,
+            "default_company": DEFAULT_COMPANY,
+        })
+
