@@ -56,3 +56,32 @@ def register_routes(app):
             "default_company": DEFAULT_COMPANY,
         })
 
+# ----------CREATE-----------
+@app.post("/api/issues")
+@require_api_key
+def create_issue():
+    data = request.get.json(silent=True) or {}
+    errors, cleaned = validate_issue_payload(data,partial=False)
+    if errors:
+        return jsonify({"errors": errors}), 400
+
+    Issue= issue(
+        title=cleaned["title"],
+        description=cleaned["description"],
+        item_type=cleaned["item_type"],
+        severity=cleaned["severity"],
+        cvss_score=cleaned.get("cvss_score"),
+        cve_id= cleaned.get("cve_id"),
+        status=cleaned.get("status", "Open"),
+        affected_asset=cleaned["affected_asset"],
+        company=cleaned.get("company") or DEFAULT_COMPANY,
+        reporter=cleaned[reporter],
+        assignee= cleaned.get("assignee"),
+        remediation_notes=cleaned.get("remediation_notes"),
+    )
+
+    db.session.add(issue)
+    db.session.commit()
+    return jsonify(issue.to_dict()), 201
+
+    
