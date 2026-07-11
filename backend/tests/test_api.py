@@ -75,6 +75,10 @@ def test_vulnerability_requires_cvss(client):
     resp = client.post("/api/issues", json=payload, headers=HEADERS)
     assert resp.status_code == 400
 
+def test_get_nonexistent_issue(client):
+    resp = client.get("/api/issues/9999")
+    assert resp.status_code == 404
+
 
 
 
