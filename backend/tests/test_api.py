@@ -65,3 +65,8 @@ def test_create_invalid_cvss(client):
     resp = client.post("/api/issues", json=sample_vuln(cvss_score=15), headers=HEADERS)
     assert resp.status_code == 400
 
+
+
+
+
+
