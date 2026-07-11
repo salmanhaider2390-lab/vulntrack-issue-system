@@ -22,3 +22,18 @@ def client():
     os.unlink()
 HEADERS = {"X-API-KEY": API_KEY, "Content_Type": "application/json"}
 
+def sample_vuln(**overrides):
+    payload =  {
+        "title": "SQL Injections in login form",
+        "description": "Unsanitised input in username field allows SQLi",
+        "item_type": "Vulnerability",
+        "severity": "Critical",
+        "cvss_score": "9.8",
+        "cve_id": "CVE-2024-12345",
+        "affected_asset": "auth-service",
+        "reporter": "salman",
+    }
+
+    payload.update(overrides)
+    return payload
+
