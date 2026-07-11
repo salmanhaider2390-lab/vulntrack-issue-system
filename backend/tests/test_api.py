@@ -79,6 +79,14 @@ def test_get_nonexistent_issue(client):
     resp = client.get("/api/issues/9999")
     assert resp.status_code == 404
 
+def test_list_and_search (client):
+    client.post("/api/issues", json=sample_vuln(title="XSS in comments"), headers=HEADERS)
+    client.post("/api/issues", json=sample_vuln(title="Broken access control"), headers=HEADERS)
+
+    resp = client.get("/api/issues?q=XSS")
+    body = resp.get_json()
+    assert body["total"] == 1
+    assert "XSS" in body["items"][0]["title"]
 
 
 
