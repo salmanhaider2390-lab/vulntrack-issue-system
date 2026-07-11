@@ -69,6 +69,14 @@ def test_create_invalid_cve_format(client):
     resp = client.post("/api/issues/", json=sample_vuln(cve_id="not-a-cve"), headers=HEADERS)
     assert resp.status_code == 400
 
+def test_vulnerability_requires_cvss(client):
+    payload = sample_vuln()
+    del payload["cvss_score"]
+    resp = client.post("/api/issues", json=payload, headers=HEADERS)
+    assert resp.status_code == 400
+
+
+
 
 
 
