@@ -46,3 +46,11 @@ def test_create_requires_api_key(client):
     resp = client.post("/api/issue", json=sample_vuln())
     assert resp.status_code == 401
 
+def test_create_issue_success(client):
+    resp = client.post("/api/issue", json=sample_vuln(), headers=HEADERS)
+    assert resp.status_code == 201
+    body = resp.get_json()
+    assert body["title"] == "SQL Injection in login form"
+    assert body["status"] == "open"
+    assert body["cve_id"] == "CVE-2024-12345"
+
