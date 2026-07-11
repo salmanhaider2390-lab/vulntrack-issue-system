@@ -37,3 +37,8 @@ def sample_vuln(**overrides):
     payload.update(overrides)
     return payload
 
+def test_health(client):
+    resp = client.get("/api/health")
+    assert resp.status_code == 200
+    assert resp.get_json()["status"] == "ok"
+
