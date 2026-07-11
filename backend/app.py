@@ -152,7 +152,7 @@ def update_issue(issue_id):
         db.session.commit()
         return jsonify(issue.to_dict())
 
-@app.patch("/api/issues/</api/issues/<int:issue_id>>")
+@app.patch("/api/issues/<int:issue_id>>")
 @require_api_key
 def patch_issue(issue_id):
     issue = db.session.get(Issue, issue_id)
@@ -175,4 +175,18 @@ def patch_issue(issue_id):
             issue.date_resolved = now_utc()
         issue.date_updated = now_utc()
 
+#------------DELETE----------------------
+@app.delete("/api/issues/<int:issue_id>>")
+@require_api_key
+def delete_issue(issue_id):
+    issue = db.session.get(Issue, issue_id)
+    if not issue:
+        return jsonify({"error": "Issue not found"}), 404
+        db.session.delete(issue)
+        db.session.commit()
+        return jsonify({"message": f"Issue {issue_id} deleted."})
 
+if __name__ == "__main__":
+    application = create_app()
+    application.run(debug=True, port=5000)
+    
