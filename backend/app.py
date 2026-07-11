@@ -1,7 +1,5 @@
 import os
-import csv
-import io
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from functools import wraps
 
 from flask import Flask, request, jsonify, Response
@@ -13,7 +11,7 @@ API_KEY = os.environ.get ("VULNTRACK_API_KEY", "vuln-track-sa121417")
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-def create_app(db_path=None)
+def create_app(db_path=None):
     app = Flask(__name__)
     CORS(app)
 
@@ -153,3 +151,28 @@ def update_issue(issue_id):
         _apply_changes(issue, cleaned)
         db.session.commit()
         return jsonify(issue.to_dict())
+
+@app.patch("/api/issues/</api/issues/<int:issue_id>>")
+@require_api_key
+def patch_issue(issue_id):
+    issue = db.session.get(Issue, issue_id)
+    if not issue:
+        return jsonify({"error": "Issue not found."}), 404
+
+    data = request.get_json(silent=True) or {}
+    errors, cleaned = validate_issue_payload(data, partial=True)
+    if errors:
+        return jsonify({"errors": errors}), 400
+
+        _apply_changes(issue, cleaned)
+        db.session.commit()
+        return jsonify(issue.to_dict())
+
+    def _apply_changes(issue, cleaned):
+        for field, new_value in cleaned.items():
+            setattr (issue, field, new_value)
+        if cleaned.get("status") == "Resolved" and not issue.date_resolved:
+            issue.date_resolved = now_utc()
+        issue.date_updated = now_utc()
+
+
