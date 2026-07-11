@@ -42,3 +42,7 @@ def test_health(client):
     assert resp.status_code == 200
     assert resp.get_json()["status"] == "ok"
 
+def test_create_requires_api_key(client):
+    resp = client.post("/api/issue", json=sample_vuln())
+    assert resp.status_code == 401
+
