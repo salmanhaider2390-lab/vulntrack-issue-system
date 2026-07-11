@@ -65,6 +65,33 @@ def validate_issue_payload(data, partial=False):
         except (TypeError, ValueError):
             errors.append("'cvss_score' must be a number")
 
+    item_type =  data.get("item_type")
+    if item_type == "Vulnerability" and not partial:
+        if not present("cvss_score"):
+            errors.append("'cvss_score' is required when item_type is 'Vulnerability'.")
+    if present ("cve_id") and data ["cve_id"]:
+        if not CVE_PATTERN.match(str(data["cve_id"]).strip()):
+            errors.append("'cve_id' must match the pattern CVE-YYYY-NNNN. ")
+        else:
+            cleaned["cve_id"] = str(data["cve_id"]).strip().upper()
+    elif "cve_id" in data:
+        cleaned["cve_id"] = None
+
+    for field in ["affected_asset", "reporter","assignee", "company", "remediation_notes"]:
+        if present(field):
+            cleaned[field] = str(data[field]).strip()
+        elif field in data:
+            cleaned[field] = None
+
+    if present("date_resolved"):
+        try:
+            cleaned["date_resolved"] = datetime.fromisoformat(str(data["data_resolved"]))
+        except ValueError:
+            errors.append("'date_resolved' must be a valid ISO-8601 datetime string.")
+    
+    return errors, cleaned
+
+
 
 
 
