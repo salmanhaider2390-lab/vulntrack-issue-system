@@ -88,6 +88,13 @@ def test_list_and_search (client):
     assert body["total"] == 1
     assert "XSS" in body["items"][0]["title"]
 
+def test_filter_by_severity(client):
+    client.post("/api/issues", json=sample_vuln(severity="Low", cvss_score=2.0), headers=HEADERS)
+    client.post("/api/issues", json=sample_vuln(severity="Critical"), headers=HEADERS)
+
+    resp = client.get("/api/issue?severity=Critical")
+    body = resp.get_json()
+    assert all (i["severity"] == "Critical" for i in body["items"])
 
 
 
