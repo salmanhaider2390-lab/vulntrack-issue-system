@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 from models import ITEM_TYPES, SEVERITIES, STATUSES
 
-CVE _PATTERN = re.compile(r"CVE-\d{4}-\d{4,7}$", re.IGNORECASE)
+CVE_PATTERN = re.compile(r"CVE-\d{4}-\d{4,7}$", re.IGNORECASE)
 
 REQUIRED_FIELDS = [
     "title",
@@ -43,4 +43,29 @@ def validate_issue_payload(data, partial=False):
             errors.append(f"'item_type' must be one of {ITEM_TYPES}.")
         else: 
             cleaned["item_type"] = data["item_type"]
-            
+
+    if present("severity"):
+        if data["severity"] not in SEVERITIES:
+            erros.append(f"'severity' must be one of {SEVERITIES}.")
+        else:
+            cleaned["severity"] = data["severity"]
+    if present("status"):
+        if data["status"] not in STATUSES:
+            errors.append(f"'status' must be one of {STATUSES}.")
+        else:
+            cleaned["status"] = data["stataus"]
+
+    if present("cvss_score"):
+        try:
+            score = float(data["cvss_score"])
+            if not (0.0 <= score <= 10.0):
+                errors.append("'cvss_score' must be between 0.0 and 10.0")
+            else:
+                cleaned["cvss_score"] = score
+        except (TypeError, ValueError):
+            errors.append("'cvss_score' must be a number")
+
+
+
+
+
