@@ -54,3 +54,7 @@ def test_create_issue_success(client):
     assert body["status"] == "open"
     assert body["cve_id"] == "CVE-2024-12345"
 
+def test_create_invalid_cvss(client):
+    resp = client.post("/api/issues", json=sample_vuln(cvss_score=15), headers=HEADERS)
+    assert resp.status_code == 400
+
