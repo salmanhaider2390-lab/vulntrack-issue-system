@@ -148,3 +148,8 @@ function clearFilters() {
   document.getElementById("filter-type").value = "";
   loadIssues();
 }
+
+function prevPage() { if (state.page > 1) { state.page--; loadIssues(); } }
+function nextPage() {
+  if (state.page * state.per_page < state.total) { state.page++; loadIssues(); }
+}
