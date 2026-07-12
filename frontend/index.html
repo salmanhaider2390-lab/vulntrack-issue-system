@@ -63,3 +63,32 @@
     <button onclick="openCreateModal()">+ New Issue</button>
   </div>
 </div>
+
+<div class="panel">
+  <table>
+    <thead>
+      <tr>
+        <th onclick="setSort('id')">ID</th>
+        <th onclick="setSort('title')">Title</th>
+        <th>Type</th>
+        <th onclick="setSort('severity')">Severity</th>
+        <th onclick="setSort('cvss_score')">CVSS</th>
+        <th onclick="setSort('status')">Status</th>
+        <th>Asset</th>
+        <th onclick="setSort('date_reported')">Reported</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="issue-rows"></tbody>
+  </table>
+  <div class="pager">
+    <button class="secondary" onclick="prevPage()">◀ Prev</button>
+    <span id="page-label"></span>
+    <button class="secondary" onclick="nextPage()">Next ▶</button>
+  </div>
+</div>
+
+<div id="modal-backdrop">
+  <div id="modal"></div>
+</div>
+<div id="toast"></div>
