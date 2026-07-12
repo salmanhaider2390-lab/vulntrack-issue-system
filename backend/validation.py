@@ -28,7 +28,7 @@ def validate_issue_payload(data, partial=False):
         elif present(field):
             value = data[field]
             if isinstance(value, str) and not value.strip():
-                erros.append(f"'{field}' can't be empty.")
+                errors.append(f"'{field}' can't be empty.")
     
     if present("title"):
         if len(str(data["title"])) > 200:
@@ -46,14 +46,14 @@ def validate_issue_payload(data, partial=False):
 
     if present("severity"):
         if data["severity"] not in SEVERITIES:
-            erros.append(f"'severity' must be one of {SEVERITIES}.")
+            errors.append(f"'severity' must be one of {SEVERITIES}.")
         else:
             cleaned["severity"] = data["severity"]
     if present("status"):
         if data["status"] not in STATUSES:
             errors.append(f"'status' must be one of {STATUSES}.")
         else:
-            cleaned["status"] = data["stataus"]
+            cleaned["status"] = data["status"]
 
     if present("cvss_score"):
         try:
@@ -85,7 +85,7 @@ def validate_issue_payload(data, partial=False):
 
     if present("date_resolved"):
         try:
-            cleaned["date_resolved"] = datetime.fromisoformat(str(data["data_resolved"]))
+            cleaned["date_resolved"] = datetime.fromisoformat(str(data["date_resolved"]))
         except ValueError:
             errors.append("'date_resolved' must be a valid ISO-8601 datetime string.")
     
