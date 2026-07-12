@@ -176,3 +176,24 @@ async function loadIssues() {
     `Page ${data.page} · ${data.total} total`;
 }
 
+function renderRows(items) {
+  const tbody = document.getElementById("issue-rows");
+  tbody.innerHTML = "";
+  items.forEach(i => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>#${i.id}</td>
+      <td>${escapeHtml(i.title)}</td>
+      <td>${i.item_type}</td>
+      <td><span class="badge sev-${i.severity}">${i.severity}</span></td>
+      <td>${i.cvss_score ?? "—"}</td>
+      <td>${i.status}</td>
+      <td>${escapeHtml(i.affected_asset)}</td>
+      <td>${new Date(i.date_reported).toLocaleDateString()}</td>
+      <td>
+        <button class="secondary" onclick="openEditModal(${i.id})">Edit</button>
+        <button class="danger" onclick="deleteIssue(${i.id})">Del</button>
+      </td>`;
+    tbody.appendChild(tr);
+  });
+}
