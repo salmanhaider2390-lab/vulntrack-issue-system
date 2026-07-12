@@ -108,3 +108,17 @@ async function api(path, opts = {}) {
   if (!res.ok) throw { status: res.status, body };
   return body;
 }
+
+function toast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(() => (t.style.display = "none"), 2500);
+}
+
+async function loadMeta() {
+  META = await api("/meta");
+  fillSelect("filter-status", META.statuses, true);
+  fillSelect("filter-severity", META.severities, true);
+  fillSelect("filter-type", META.item_types, true);
+}
