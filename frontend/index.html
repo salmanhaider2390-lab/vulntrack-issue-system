@@ -140,3 +140,11 @@ function setSort(field) {
   else { state.sort_by = field; state.order = "asc"; }
   loadIssues();
 }
+
+function clearFilters() {
+  document.getElementById("search").value = "";
+  document.getElementById("filter-status").value = "";
+  document.getElementById("filter-severity").value = "";
+  document.getElementById("filter-type").value = "";
+  loadIssues();
+}
