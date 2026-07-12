@@ -64,7 +64,7 @@ def register_routes(app):
         if errors:
             return jsonify({"errors": errors}), 400
 
-    issue= Issue(
+        issue = Issue(
         title=cleaned["title"],
         description=cleaned["description"],
         item_type=cleaned["item_type"],
@@ -169,15 +169,15 @@ def register_routes(app):
         db.session.commit()
         return jsonify(issue.to_dict())
 
-        def _apply_changes(issue, cleaned):
-            for field, new_value in cleaned.items():
-                setattr (issue, field, new_value)
-            if cleaned.get("status") == "Resolved" and not issue.date_resolved:
-                issue.date_resolved = now_utc()
-            issue.date_updated = now_utc()
+    def _apply_changes(issue, cleaned):
+        for field, new_value in cleaned.items():
+            setattr (issue, field, new_value)
+        if cleaned.get("status") == "Resolved" and not issue.date_resolved:
+            issue.date_resolved = now_utc()
+        issue.date_updated = now_utc()
 
     #------------DELETE----------------------
-    @app.delete("/api/issues/<int:issue_id>>")
+    @app.delete("/api/issues/<int:issue_id>")
     @require_api_key
     def delete_issue(issue_id):
         issue = db.session.get(Issue, issue_id)
