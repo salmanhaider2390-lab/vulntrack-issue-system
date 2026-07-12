@@ -122,3 +122,15 @@ async function loadMeta() {
   fillSelect("filter-severity", META.severities, true);
   fillSelect("filter-type", META.item_types, true);
 }
+
+function fillSelect(id, values, keepFirst) {
+  const el = document.getElementById(id);
+  const existing = keepFirst ? [el.firstElementChild] : [];
+  el.innerHTML = "";
+  existing.forEach(o => el.appendChild(o));
+  values.forEach(v => {
+    const opt = document.createElement("option");
+    opt.value = v; opt.textContent = v;
+    el.appendChild(opt);
+  });
+}
