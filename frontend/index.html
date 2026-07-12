@@ -212,3 +212,12 @@ async function deleteIssue(id) {
     loadIssues(); loadSummary();
   } catch (e) { toast("Error: " + (e.body?.error || "delete failed")); }
 }
+
+function closeModal() { document.getElementById("modal-backdrop").style.display = "none"; }
+
+function openCreateModal() { renderForm(null); }
+
+async function openEditModal(id) {
+  const issue = await api(`/issues/${id}`);
+  renderForm(issue);
+}
