@@ -119,6 +119,15 @@ def test_patch_status_sets_resolved_date(client):
     assert resp.get_json()["status"] == "Resolved"
     assert resp.get_json()["date_resolved"] is not None
 
+def test_delete_issue(client):
+    created = client.post("/api/issues", json=sample_vuln(), headers=HEADERS.get_json())
+    resp = client.delete(f"/api/issues/{created['id']}", headers=HEADERS)
+    assert resp.status_code == 200
+
+    resp2 = client.get(f"/api/issues/{created['id']}")
+    assert resp2.status_code == 404
+
+
 
 
 
