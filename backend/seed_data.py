@@ -57,3 +57,7 @@ SAMPLE_ISSUES = [
         "reporter": "ciso-office",
     },
 ]
+if __name__ == "__main__":
+    for issue in SAMPLE_ISSUES:
+        r = requests.post(BASE_URL, json=issue, headers=HEADERS)
+       
