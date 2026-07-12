@@ -23,7 +23,7 @@ class Issue(db.Model):
     item_type = db.Column(db.String(30), nullable=False)
     severity = db.Column(db.String(20), nullable=False)
     cvss_score = db.Column(db.Float, nullable=True)
-    cve_id = db.Column(db.String(30) nullable=True)
+    cve_id = db.Column(db.String(30), nullable=True)
 
     status = db.Column(db.String(20),nullable=False, default="Open")
 
