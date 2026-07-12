@@ -221,3 +221,43 @@ async function openEditModal(id) {
   const issue = await api(`/issues/${id}`);
   renderForm(issue);
 }
+
+function renderForm(issue) {
+  const isEdit = !!issue;
+  const opts = (arr, current) => arr.map(v =>
+    `<option value="${v}" ${v === current ? "selected" : ""}>${v}</option>`).join("");
+
+  document.getElementById("modal").innerHTML = `
+    <h3>${isEdit ? "Edit Issue #" + issue.id : "New Issue"}</h3>
+    <div class="field"><label>Title *</label>
+      <input id="f-title" style="width:100%" value="${issue ? escapeHtml(issue.title) : ""}"></div>
+    <div class="field"><label>Description *</label>
+      <textarea id="f-description">${issue ? escapeHtml(issue.description) : ""}</textarea></div>
+    <div class="grid2">
+      <div class="field"><label>Type *</label>
+        <select id="f-type" style="width:100%">${opts(META.item_types, issue?.item_type)}</select></div>
+      <div class="field"><label>Severity *</label>
+        <select id="f-severity" style="width:100%">${opts(META.severities, issue?.severity)}</select></div>
+      <div class="field"><label>CVSS Score (0-10, required for Vulnerability)</label>
+        <input id="f-cvss" type="number" step="0.1" min="0" max="10" style="width:100%" value="${issue?.cvss_score ?? ""}"></div>
+      <div class="field"><label>CVE ID (optional, CVE-YYYY-NNNN)</label>
+        <input id="f-cve" style="width:100%" value="${issue?.cve_id ?? ""}"></div>
+      <div class="field"><label>Status</label>
+        <select id="f-status" style="width:100%">${opts(META.statuses, issue?.status || "Open")}</select></div>
+      <div class="field"><label>Affected Asset *</label>
+        <input id="f-asset" style="width:100%" value="${issue ? escapeHtml(issue.affected_asset) : ""}"></div>
+      <div class="field"><label>Reporter *</label>
+        <input id="f-reporter" style="width:100%" value="${issue ? escapeHtml(issue.reporter) : ""}"></div>
+      <div class="field"><label>Assignee</label>
+        <input id="f-assignee" style="width:100%" value="${issue?.assignee ?? ""}"></div>
+    </div>
+    <div class="field"><label>Remediation Notes</label>
+      <textarea id="f-remediation">${issue?.remediation_notes ?? ""}</textarea></div>
+    <div id="form-errors" class="errlist"></div>
+    <div class="row" style="margin-top:10px">
+      <button onclick="submitForm(${issue ? issue.id : "null"})">${isEdit ? "Save Changes" : "Create Issue"}</button>
+      <button class="secondary" onclick="closeModal()">Cancel</button>
+    </div>
+  `;
+  document.getElementById("modal-backdrop").style.display = "flex";
+}
