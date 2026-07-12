@@ -1,4 +1,5 @@
-#tests
+#tests/test_api.py
+#attribution: self + AI assistance
 
 import os
 import sys
@@ -6,6 +7,7 @@ import tempfile
 import pytest
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from app import create_app,API_KEY
 from models import db
 
@@ -19,7 +21,8 @@ def client():
         yield client
 
     os.close(fd)
-    os.unlink()
+    os.unlink(path)
+    
 HEADERS = {"X-API-KEY": API_KEY, "Content_Type": "application/json"}
 
 def sample_vuln(**overrides):
@@ -126,6 +129,8 @@ def test_delete_issue(client):
 
     resp2 = client.get(f"/api/issues/{created['id']}")
     assert resp2.status_code == 404
+
+
 
 
 
