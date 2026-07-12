@@ -203,3 +203,12 @@ function escapeHtml(s) {
   d.textContent = s ?? "";
   return d.innerHTML;
 }
+
+async function deleteIssue(id) {
+  if (!confirm(`Delete issue #${id}? This cannot be undone.`)) return;
+  try {
+    await api(`/issues/${id}`, { method: "DELETE" });
+    toast("Issue deleted");
+    loadIssues(); loadSummary();
+  } catch (e) { toast("Error: " + (e.body?.error || "delete failed")); }
+}
