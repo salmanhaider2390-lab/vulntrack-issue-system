@@ -261,3 +261,32 @@ function renderForm(issue) {
   `;
   document.getElementById("modal-backdrop").style.display = "flex";
 }
+
+async function submitForm(id) {
+  const payload = {
+    title: document.getElementById("f-title").value,
+    description: document.getElementById("f-description").value,
+    item_type: document.getElementById("f-type").value,
+    severity: document.getElementById("f-severity").value,
+    status: document.getElementById("f-status").value,
+    affected_asset: document.getElementById("f-asset").value,
+    reporter: document.getElementById("f-reporter").value,
+    assignee: document.getElementById("f-assignee").value,
+    remediation_notes: document.getElementById("f-remediation").value,
+  };
+  const cvss = document.getElementById("f-cvss").value;
+  const cve = document.getElementById("f-cve").value;
+  if (cvss !== "") payload.cvss_score = parseFloat(cvss);
+  if (cve !== "") payload.cve_id = cve;
+
+  try {
+    if (id) await api(`/issues/${id}`, { method: "PUT", body: JSON.stringify(payload) });
+    else await api("/issues", { method: "POST", body: JSON.stringify(payload) });
+    closeModal();
+    toast(id ? "Issue updated" : "Issue created");
+    loadIssues(); loadSummary();
+  } catch (e) {
+    const errs = e.body?.errors || [e.body?.error || "Something went wrong"];
+    document.getElementById("form-errors").innerHTML = errs.join("<br>");
+  }
+}
