@@ -95,7 +95,7 @@
 
 <script>
 const API_BASE = "http://127.0.0.1:5000/api";
-const API_KEY = "dev-key-change-me"; // matches backend VULNTRACK_API_KEY default
+const API_KEY = "vuln-track-sa121417"; // matches backend VULNTRACK_API_KEY default
 
 let META = { item_types: [], severities: [], statuses: [] };
 let state = { page: 1, per_page: 10, sort_by: "date_reported", order: "desc", total: 0 };
@@ -133,4 +133,10 @@ function fillSelect(id, values, keepFirst) {
     opt.value = v; opt.textContent = v;
     el.appendChild(opt);
   });
+}
+
+function setSort(field) {
+  if (state.sort_by === field) state.order = state.order === "asc" ? "desc" : "asc";
+  else { state.sort_by = field; state.order = "asc"; }
+  loadIssues();
 }
