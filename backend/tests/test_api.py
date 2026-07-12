@@ -111,6 +111,14 @@ def test_update_full(client):
     assert resp.status_code == 200
     assert resp.get.json()["title"] == "Updated Title"
     assert resp.get.json()["status"] == "In Progress"
-    
+
+def test_patch_status_sets_resolved_date(client):
+    created = client.post("/api/issues", json=sample_vuln(), headers=HEADERS.get_json())
+    resp = client.patch(f"/api/issues/{created['id']}", json={"status": "Resolved"}, headers=HEADERS)
+    assert resp.status_code == 200
+    assert resp.get_json()["status"] == "Resolved"
+    assert resp.get_json()["date_resolved"] is not None
+
+
 
 
