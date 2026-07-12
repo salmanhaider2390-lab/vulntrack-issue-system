@@ -65,23 +65,23 @@ def register_routes(app):
             return jsonify({"errors": errors}), 400
 
         issue = Issue(
-            title=cleaned["title"],
-            description=cleaned["description"],
-            item_type=cleaned["item_type"],
-            severity=cleaned["severity"],
-            cvss_score=cleaned.get("cvss_score"),
-            cve_id= cleaned.get("cve_id"),
-            status=cleaned.get("status", "Open"),
-            affected_asset=cleaned["affected_asset"],
-            company=cleaned.get("company") or DEFAULT_COMPANY,
-            reporter=cleaned["reporter"],
-            assignee= cleaned.get("assignee"),
-            remediation_notes=cleaned.get("remediation_notes"),
-        )
+        title=cleaned["title"],
+        description=cleaned["description"],
+        item_type=cleaned["item_type"],
+        severity=cleaned["severity"],
+        cvss_score=cleaned.get("cvss_score"),
+        cve_id= cleaned.get("cve_id"),
+        status=cleaned.get("status", "Open"),
+        affected_asset=cleaned["affected_asset"],
+        company=cleaned.get("company") or DEFAULT_COMPANY,
+        reporter=cleaned["reporter"],
+        assignee= cleaned.get("assignee"),
+        remediation_notes=cleaned.get("remediation_notes"),
+    )
 
-        db.session.add(issue)
-        db.session.commit()
-        return jsonify(issue.to_dict()), 201
+    db.session.add(issue)
+    db.session.commit()
+    return jsonify(issue.to_dict()), 201
 
     # ---------------READ-----------------
     @app.get("/api/issues")
