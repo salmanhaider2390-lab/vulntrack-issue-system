@@ -40,3 +40,20 @@ SAMPLE_ISSUES = [
         "affected_asset": "api-gateway",
         "reporter": "soc-analyst-1",
     },
+    {
+        "title": "Dashboard chart renders incorrectly on Safari",
+        "description": "The reporting dashboard chart overflows its container on Safari 17.",
+        "item_type": "Bug",
+        "severity": "Low",
+        "affected_asset": "internal-dashboard",
+        "reporter": "qa-team",
+    },
+    {
+        "title": "Add MFA support for admin console",
+        "description": "Request to add multi-factor authentication for all admin console logins.",
+        "item_type": "Feature Request",
+        "severity": "Informational",
+        "affected_asset": "admin-console",
+        "reporter": "ciso-office",
+    },
+]
