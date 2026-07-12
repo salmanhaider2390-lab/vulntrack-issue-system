@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, Response
 from flask_cors import CORS
 
 from models import db, Issue, ITEM_TYPES,SEVERITIES, STATUSES,DEFAULT_COMPANY,now_utc
-
+from validation import validate_issue_payload
 API_KEY = os.environ.get ("VULNTRACK_API_KEY", "vuln-track-sa121417")
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
