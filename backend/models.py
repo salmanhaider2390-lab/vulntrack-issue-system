@@ -32,14 +32,14 @@ class Issue(db.Model):
     reporter = db.Column(db.String(120), nullable=False)
     assignee = db.Column(db.String(120), nullable=True)
 
-    remidiation_notes = db.Column(db.Text, nullable=True)
+    remediation_notes = db.Column(db.Text, nullable=True)
 
     date_reported = db.Column(db.DateTime, nullable=False, default=now_utc)
     date_updated = db.Column(db.DateTime, nullable= False, default=now_utc, onupdate=now_utc)
     date_resolved = db.Column(db.DateTime, nullable=True)
 
 
-def to_dict(self):
+    def to_dict(self):
         return {
             "id": self.id,
             "title": self.title,
@@ -52,9 +52,8 @@ def to_dict(self):
             "affected_asset": self.affected_asset,
             "company": self.company,
             "reporter": self.reporter,
-            "assigneee": self.assignee,
-            "reporter": self.reporter,
-            "remidiation_notes": self.remidiation_notes,
+            "assignee": self.assignee,
+            "remediation_notes": self.remediation_notes,
             "date_reported": self.date_reported.isoformat() if self.date_reported else None,
             "date_updated": self.date_updated.isoformat() if self.date_updated else None,
             "date_resolved": self.date_resolved.isoformat() if self.date_resolved else None,
