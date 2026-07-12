@@ -4,7 +4,7 @@ import re
 from datetime import datetime
 from models import ITEM_TYPES, SEVERITIES, STATUSES
 
-CVE_PATTERN = re.compile(r"CVE-\d{4}-\d{4,7}$", re.IGNORECASE)
+CVE_PATTERN = re.compile(r"^CVE-\d{4}-\d{4,7}$", re.IGNORECASE)
 
 REQUIRED_FIELDS = [
     "title",
