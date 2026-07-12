@@ -153,3 +153,26 @@ function prevPage() { if (state.page > 1) { state.page--; loadIssues(); } }
 function nextPage() {
   if (state.page * state.per_page < state.total) { state.page++; loadIssues(); }
 }
+
+async function loadIssues() {
+  const params = new URLSearchParams();
+  const q = document.getElementById("search").value.trim();
+  const status = document.getElementById("filter-status").value;
+  const severity = document.getElementById("filter-severity").value;
+  const item_type = document.getElementById("filter-type").value;
+  if (q) params.set("q", q);
+  if (status) params.set("status", status);
+  if (severity) params.set("severity", severity);
+  if (item_type) params.set("item_type", item_type);
+  params.set("sort_by", state.sort_by);
+  params.set("order", state.order);
+  params.set("page", state.page);
+  params.set("per_page", state.per_page);
+
+  const data = await api("/issues?" + params.toString());
+  state.total = data.total;
+  renderRows(data.items);
+  document.getElementById("page-label").textContent =
+    `Page ${data.page} · ${data.total} total`;
+}
+
