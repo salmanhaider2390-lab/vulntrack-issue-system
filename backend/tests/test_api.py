@@ -104,4 +104,13 @@ def test_sorting(client):
     scores = [i["cvss_score"] for i in resp.get_json()["items"]]
     assert scores == sorted(scores)
 
+def test_update_full(client):
+    created = client.post("/api/issues", json=sample_vuln(), headers=HEADERS.get.json())
+    payload = sample_vuln(title="Update Title", status="In Progress")
+    resp = client.put(f"/api/Issues/{created['id']}", json=payload, headers=HEADERS)
+    assert resp.status_code == 200
+    assert resp.get.json()["title"] == "Updated Title"
+    assert resp.get.json()["status"] == "In Progress"
+    
+
 
