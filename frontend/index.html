@@ -290,3 +290,12 @@ async function submitForm(id) {
     document.getElementById("form-errors").innerHTML = errs.join("<br>");
   }
 }
+
+(async function init() {
+  await loadMeta();
+  await loadIssues();
+  await loadSummary();
+})();
+</script>
+</body>
+</html>
