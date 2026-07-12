@@ -96,6 +96,12 @@ def test_filter_by_severity(client):
     body = resp.get_json()
     assert all (i["severity"] == "Critical" for i in body["items"])
 
+def test_sorting(client):
+    client.post("/api/issues", json=sample_vuln(title="A issue", cvss_score=2.0), headers=HEADERS)
+    client.post("/api/issues", json=sample_vuln(title="B issue", cvss_score=9.0), headers=HEADERS)
 
+    resp = client.get("/api/issues?sort_by=cvss_score&order=asc")
+    scores = [i["cvss_score"] for i in resp.get_json()["items"]]
+    assert scores == sorted(scores)
 
 
