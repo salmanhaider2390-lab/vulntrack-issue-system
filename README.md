@@ -101,3 +101,29 @@ a real deployment).
 Import the base URL `http://127.0.0.1:5000/api` and set header
 `X-API-Key: dev-key-change-me` on any write request (POST/PUT/PATCH/DELETE).
 Example bodies are in `backend/seed_data.py`.
+
+## 4. Testing
+
+17 automated tests (`pytest`) cover: health check, auth enforcement, create with
+valid/invalid payloads (missing fields, bad CVSS, bad CVE format, missing CVSS on
+a Vulnerability), read (single/list/404), search, filter, sort, full update,
+partial update (status→Resolved auto-stamps `date_resolved`), delete, summary
+reporting, and CSV export. Run with:
+
+```bash
+python -m pytest backend/tests/ -v
+```
+
+Manual testing was additionally performed via Postman/curl against the running
+server and via the bundled frontend.
+
+## 5. Source control workflow
+
+This project was developed with incremental commits on GitHub, each attributed
+to its origin per the assignment's academic integrity requirement:
+
+- `self` — code written from scratch
+- `library` — third-party dependency usage (Flask, Flask-SQLAlchemy, Flask-Cors)
+  used per their documented public APIs
+- `ai` — sections created with AI assistance, reviewed and adapted
+
