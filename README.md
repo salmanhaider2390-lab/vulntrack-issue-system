@@ -127,3 +127,13 @@ to its origin per the assignment's academic integrity requirement:
   used per their documented public APIs
 - `ai` — sections created with AI assistance, reviewed and adapted
 
+## 6. Code attribution 
+
+| Component | Origin | Notes |
+|---|---|---|
+| `models.py` (data model) | self| Schema designed|
+| `validation.py` | self / ai-assisted | Custom validation logic; drafted with AI assistance |
+| `app.py` (routes) | self| Core CRUD + reporting logic;|
+| `tests/test_api.py` | self / ai-assisted | Test cases created with AI assistance |
+| `frontend/index.html` | self / ai-assisted | Vanilla JS client; created with AI assistance |
+| Flask, Flask-SQLAlchemy, Flask-Cors, pytest | library | Third-party packages, used under their respective licences (BSD/MIT) via PyPI, no source code copied |
