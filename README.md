@@ -31,3 +31,27 @@ Each tracked item has:
 | assignee | string | optional |
 | remediation_notes | text | optional |
 | date_reported / date_updated / date_resolved | datetime | server-managed |
+
+### 1.3 Functional requirements
+- **Create** new issues/vulnerabilities via `POST /api/issues`
+- **Read** — single item (`GET /api/issues/<id>`) and list with **search** (`q`),
+  **filter** (status/severity/type/company/assignee), **sort** (`sort_by`, `order`)
+  and **pagination** (`page`, `per_page`) via `GET /api/issues`
+- **Update** — full replace (`PUT`) or partial (`PATCH`, e.g. status-only change)
+- **Delete** — `DELETE /api/issues/<id>`
+- **Validation** — required fields, enum membership, CVSS range, CVE regex,
+  business rule that vulnerabilities need a CVSS score
+- **Integrity** — enforced via required fields, enum validation, CVSS range checks,
+  CVE format checks, and non-null database constraints
+- **Security** — write endpoints (`POST`/`PUT`/`PATCH`/`DELETE`) require an
+  `X-API-Key` header (see `require_api_key` in `app.py`). Read endpoints are open,
+  matching a typical internal dashboard model.
+
+### 1.4 Non-functional
+- API-first design (REST/JSON) so any client (Postman, curl, the bundled web
+  frontend, or a future mobile app) can consume it
+- SQLite for coursework simplicity; `SQLALCHEMY_DATABASE_URI` can be swapped for
+  Postgres/MySQL with no code changes elsewhere
+- CORS enabled so the frontend (served separately) can call the API
+
+---
