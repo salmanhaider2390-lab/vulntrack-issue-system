@@ -55,3 +55,49 @@ Each tracked item has:
 - CORS enabled so the frontend (served separately) can call the API
 
 ---
+
+## 2. Project structure
+
+```
+vulntrack/
+├── backend/
+│   ├── app.py           # Flask app, routes
+│   ├── models.py        # SQLAlchemy model (Issue)
+│   ├── validation.py     # request payload validation
+│   ├── seed_data.py      # demo data loader
+│   ├── requirements.txt
+│   └── tests/
+│       └── test_api.py   # pytest suite (18 tests)
+├── frontend/
+│   └── index.html         # single-page vanilla JS client
+├── .gitignore
+└── README.md
+```
+
+## 3. Running it
+
+```bash
+cd backend
+python -m venv venv && source venv/bin/activate   # optional but recommended
+pip install -r requirements.txt
+
+# start the API (http://127.0.0.1:5000)
+python app.py
+
+# in a second terminal: load demo data
+python seed_data.py
+
+# run tests
+python -m pytest tests/ -v
+```
+
+Then open `frontend/index.html` directly in a browser (or serve it with
+`python -m http.server` from the `frontend/` folder). It talks to the API at
+`http://127.0.0.1:5000/api` and uses the default dev API key
+(`dev-key-change-me`, matching `VULNTRACK_API_KEY` in `app.py` — change both for
+a real deployment).
+
+### Postman
+Import the base URL `http://127.0.0.1:5000/api` and set header
+`X-API-Key: dev-key-change-me` on any write request (POST/PUT/PATCH/DELETE).
+Example bodies are in `backend/seed_data.py`.
