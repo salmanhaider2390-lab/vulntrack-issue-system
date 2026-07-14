@@ -8,8 +8,7 @@ Backend: **Flask** + **Flask-SQLAlchemy** + **SQLite**. Frontend: a lightweight 
 
 ### 1.1 Purpose
 Track software issues, bugs, feature requests, and security vulnerabilities affecting
-VulnTrack Company' systems, with enough structure to support triage,
-remediation tracking, and management reporting.
+VulnTrack Company' systems, with enough structure to report vulnerabilities and remediation tracking
 
 ### 1.2 Data requirements
 Each tracked item has:
@@ -63,12 +62,11 @@ vulntrack/
 │   ├── app.py           # Flask app, routes
 │   ├── models.py        # SQLAlchemy model (Issue)
 │   ├── validation.py     # request payload validation
-│   ├── seed_data.py      # demo data loader
-│   ├── requirements.txt
+│   ├── seed_data.py      # demo data inputs
 │   └── tests/
-│       └── test_api.py   # pytest suite (18 tests)
+│       └── test_api.py   # pytest
 ├── frontend/
-│   └── index.html         # single-page vanilla JS client
+│   └── index.html        
 ├── .gitignore
 └── README.md
 ```
@@ -77,8 +75,7 @@ vulntrack/
 
 ```bash
 cd backend
-python -m venv venv && source venv/bin/activate   # optional but recommended
-pip install -r requirements.txt
+python -m venv venv && source venv/bin/activate 
 
 # start the API (http://127.0.0.1:5000)
 python app.py
@@ -93,8 +90,7 @@ python -m pytest tests/ -v
 Then open `frontend/index.html` directly in a browser (or serve it with
 `python -m http.server` from the `frontend/` folder). It talks to the API at
 `http://127.0.0.1:5000/api` and uses the default dev API key
-(`vuln-track-sa121417`, matching `VULNTRACK_API_KEY` in `app.py` — change both for
-a real deployment).
+(`vuln-track-sa121417`, matching `VULNTRACK_API_KEY` in `app.py`)
 
 ### Postman
 Import the base URL `http://127.0.0.1:5000/api` and set header
@@ -113,8 +109,6 @@ reporting, and CSV export. Run with:
 python -m pytest backend/tests/ -v
 ```
 
-Manual testing was additionally performed via Postman/curl against the running
-server and via the bundled frontend.
 
 ## 5. Source control workflow
 
