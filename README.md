@@ -1,7 +1,6 @@
 # Issue &amp; Vulnerability Tracking System — VulnTrack Company
 
-A REST API-based issue and vulnerability tracker built for [module code / assignment name].
-Backend: **Flask** + **Flask-SQLAlchemy** + **SQLite**. Frontend: a lightweight **vanilla HTML/JS** single-page client.
+Backend: **Flask** + **Flask-SQLAlchemy** + **SQLite**. Frontend: a lightweight **vanilla HTML/JS** webpage
 
 ---
 
@@ -94,12 +93,12 @@ python -m pytest tests/ -v
 Then open `frontend/index.html` directly in a browser (or serve it with
 `python -m http.server` from the `frontend/` folder). It talks to the API at
 `http://127.0.0.1:5000/api` and uses the default dev API key
-(`dev-key-change-me`, matching `VULNTRACK_API_KEY` in `app.py` — change both for
+(`vuln-track-sa121417`, matching `VULNTRACK_API_KEY` in `app.py` — change both for
 a real deployment).
 
 ### Postman
 Import the base URL `http://127.0.0.1:5000/api` and set header
-`X-API-Key: dev-key-change-me` on any write request (POST/PUT/PATCH/DELETE).
+`X-API-Key: vuln-track-sa121417` on any write request (POST/PUT/PATCH/DELETE).
 Example bodies are in `backend/seed_data.py`.
 
 ## 4. Testing
